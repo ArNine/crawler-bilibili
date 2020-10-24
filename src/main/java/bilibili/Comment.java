@@ -19,9 +19,13 @@ import java.util.regex.Pattern;
 
 public class Comment {
 
+    private int all = 0;
+    private int cur = 0;
 
     public static void main(String[] args) throws Exception {
-        String BV = "BV1mz4y1o74F";
+
+
+        String BV = "BV1BK411L7ou";
         new Comment().run(URLUtils.createBVURL(BV));
     }
 
@@ -37,6 +41,7 @@ public class Comment {
 
         //3.获取基本的page信息
         Page page = parsingJsonPage(json);
+        all = page.getAcount();
         System.out.println(page.toString());
 
         //4.获取所有基楼的数据信息存入List，因为会自加1，所以从0开始
@@ -48,15 +53,15 @@ public class Comment {
             的类中添加和b站返回的json格式数据相同的属性，小心ip被封哦！
          */
         List<Replies> allReplies = parsingJsonReReplies(baseReplies, aid);
-        for (Replies allReply : allReplies) {
-            System.out.println(allReply.getContent().getMessage());
-            if (allReply.getReplies() != "null") {
-                for (Replies reReply : allReply.getReReplies()) {
-                    System.out.println(reReply.getContent().getMessage());
-                }
-            }
-            System.out.println("==========================================");
-        }
+//        for (Replies allReply : allReplies) {
+//            System.out.println(allReply.getContent().getMessage());
+//            if (allReply.getReplies() != "null") {
+//                for (Replies reReply : allReply.getReReplies()) {
+//                    System.out.println(reReply.getContent().getMessage());
+//                }
+//            }
+//            System.out.println("==========================================");
+//        }
 
         //6.具体业务
         operation(allReplies);
@@ -119,7 +124,8 @@ public class Comment {
 
             List<Replies> repliesList = JSONArray.parseArray(repliesStr, Replies.class);
             baseReplies.addAll(repliesList);
-            //System.out.println(url + "  download");
+            cur += repliesList.size();
+            System.out.println(Float.parseFloat(String.format("%.4f", (cur * 1.0) / all)) * 100 + "%  download;");
             //Thread.sleep(1000);
         }
         return baseReplies;
@@ -170,3 +176,18 @@ public class Comment {
     }
 
 }
+/*
+
+USER_AGENTS = [
+    "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 2.0.50727; Media Center PC 6.0)",
+    "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 1.0.3705; .NET CLR 1.1.4322)",
+    "Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.2; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 3.0.04506.30)",
+    "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.3 (Change: 287 c9dfb30)",
+    "Mozilla/5.0 (X11; U; Linux; en-US) AppleWebKit/527+ (KHTML, like Gecko, Safari/419.3) Arora/0.6",
+    "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2pre) Gecko/20070215 K-Ninja/2.1.1",
+    "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9) Gecko/20080705 Firefox/3.0 Kapiko/3.0",
+    "Mozilla/5.0 (X11; Linux i686; U;) Gecko/20070322 Kazehakase/0.4.5"
+    ]
+
+
+ */
