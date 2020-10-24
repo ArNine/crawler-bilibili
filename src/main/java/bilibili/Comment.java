@@ -119,7 +119,7 @@ public class Comment {
 
             List<Replies> repliesList = JSONArray.parseArray(repliesStr, Replies.class);
             baseReplies.addAll(repliesList);
-            System.out.println(url + "  download");
+            //System.out.println(url + "  download");
             //Thread.sleep(1000);
         }
         return baseReplies;
