@@ -1,8 +1,12 @@
-package bilibili.comment;
+package com.cai.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Page {
 
     private Integer num;    //第几页
